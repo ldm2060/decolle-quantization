@@ -138,8 +138,12 @@ def prepare_experiment(name, args):
         print('Resuming model from {}'.format(log_dir)) 
  
     with open(params_file, 'r') as f: 
-        import yaml 
-        params = yaml.load(f) 
+        import yaml
+        try:
+            from yaml import CLoader as Loader
+        except ImportError:
+            from yaml import Loader
+        params = yaml.load(f,Loader = Loader) 
      
     if 'learning_method' not in params:
         print('Learning method is not explicitly defined, assuming RTRL') 
